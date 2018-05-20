@@ -33,19 +33,19 @@ import com.imooc.security.core.properties.SecurityProperties;
 
 /**
  * @author zhailiang
- *
+ * 这个可以用来实现网页的登录，还有app的登录，通过判断url返回不同的结果
  */
 @RestController
 public class BrowserSecurityController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	private RequestCache requestCache = new HttpSessionRequestCache();
+	private RequestCache requestCache = new HttpSessionRequestCache();//这个可以用来获取到请求的链接啊
 
-	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();//这个可以用来重定向啊
 
 	@Autowired
-	private SecurityProperties securityProperties;
+	private SecurityProperties securityProperties;//这个就是配置了可以读取配置文件的类，直接调用这些方法，配置文件中的值就能读取到了
 
 	@Autowired
 	private ProviderSignInUtils providerSignInUtils;
@@ -63,13 +63,13 @@ public class BrowserSecurityController {
 	public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 
-		SavedRequest savedRequest = requestCache.getRequest(request, response);
+		SavedRequest savedRequest = requestCache.getRequest(request, response);//这个可以用来获取到请求的链接啊
 
 		if (savedRequest != null) {
 			String targetUrl = savedRequest.getRedirectUrl();
 			logger.info("引发跳转的请求是:" + targetUrl);
-			if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")) {
-				redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
+			if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")) {//判断的原理就只是后缀有没有.html
+				redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());//这个可以用来重定向啊
 			}
 		}
 

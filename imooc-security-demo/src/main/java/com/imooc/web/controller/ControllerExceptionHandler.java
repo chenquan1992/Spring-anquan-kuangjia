@@ -18,13 +18,13 @@ import com.imooc.exception.UserNotExistException;
  * @author zhailiang
  *
  */
-@ControllerAdvice
+@ControllerAdvice//这个注解捕获所有Controller抛出的异常
 public class ControllerExceptionHandler {
 
-	@ExceptionHandler(UserNotExistException.class)
-	@ResponseBody
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public Map<String, Object> handleUserNotExistException(UserNotExistException ex) {
+	@ExceptionHandler(UserNotExistException.class)//当捕获到UserNotExistException这个异常运行下面的方法
+	@ResponseBody//返回json格式
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)//指定返回的错误码
+	public Map<String, Object> handleUserNotExistException(HttpServletRequest request,UserNotExistException ex) {//捕获到的异常肯定要接受传进来的
 		Map<String, Object> result = new HashMap<>();
 		result.put("id", ex.getId());
 		result.put("message", ex.getMessage());

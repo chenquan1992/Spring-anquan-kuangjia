@@ -19,7 +19,7 @@ import com.imooc.web.interceptor.TimeInterceptor;
  * @author zhailiang
  *
  */
-@Configuration
+@Configuration//告诉Spring boot这是一个配置类
 public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@SuppressWarnings("unused")
@@ -27,21 +27,23 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	private TimeInterceptor timeInterceptor;
 	
 	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(timeInterceptor);
+	public void addInterceptors(InterceptorRegistry registry) {//拦截器注册器
+//		registry.addInterceptor(timeInterceptor);//注册拦截器
 	}
 	
-//	@Bean
+//	@Bean //交给Spring 管理这个方法
 	public FilterRegistrationBean timeFilter() {
+		//FilterRegistrationBean这是Spring boot专门用来加载fillter的配置类，
+		// 这样的写法就可以不用再filter上标注@Component的注解，同时也可以控制那些路径需要拦截，也可以将第三方的拦截器配置到自己的系统中
 		
-		FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+		FilterRegistrationBean registrationBean = new FilterRegistrationBean();//必须new 的
 		
-		TimeFilter timeFilter = new TimeFilter();
-		registrationBean.setFilter(timeFilter);
+		TimeFilter timeFilter = new TimeFilter();//这是自己定义的一个filter过滤器
+		registrationBean.setFilter(timeFilter);//将过滤器配置在registrationBean中
 		
 		List<String> urls = new ArrayList<>();
-		urls.add("/*");
-		registrationBean.setUrlPatterns(urls);
+		urls.add("/*");//设置过滤的路径，这个表示全部路径拦截
+		registrationBean.setUrlPatterns(urls);//把路径配置在registrationBean中
 		
 		return registrationBean;
 		

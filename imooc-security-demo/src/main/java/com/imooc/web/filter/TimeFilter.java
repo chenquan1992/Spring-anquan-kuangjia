@@ -17,7 +17,7 @@ import javax.servlet.ServletResponse;
  * @author zhailiang
  *
  */
-//@Component
+//@Component//要让过滤器起作用只需要这个注解、还可以使用WebConfig的方法（FilterRegistrationBean），不需要这个@Component的注解
 public class TimeFilter implements Filter {
 
 	/* (non-Javadoc)
@@ -25,7 +25,7 @@ public class TimeFilter implements Filter {
 	 */
 	@Override
 	public void destroy() {
-		System.out.println("time filter destroy");
+		System.out.println("time filter destroy");//系统结束的时候运行一次，整个程序的运行过程中只运行一次
 	}
 
 	/* (non-Javadoc)
@@ -36,7 +36,7 @@ public class TimeFilter implements Filter {
 			throws IOException, ServletException {
 		System.out.println("time filter start");
 		long start = new Date().getTime();
-		chain.doFilter(request, response);
+		chain.doFilter(request, response);//这是必写的，使程序正常执行的方法，调控制器被拦截的方法
 		System.out.println("time filter 耗时:"+ (new Date().getTime() - start));
 		System.out.println("time filter finish");
 	}
@@ -46,7 +46,7 @@ public class TimeFilter implements Filter {
 	 */
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
-		System.out.println("time filter init");
+		System.out.println("time filter init");//系统初始化的时候运行一次，整个程序的运行过程中只运行一次
 	}
 
 }

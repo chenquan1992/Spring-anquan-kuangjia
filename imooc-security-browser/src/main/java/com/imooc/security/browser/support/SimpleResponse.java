@@ -7,7 +7,7 @@ package com.imooc.security.browser.support;
  * @author zhailiang
  *
  */
-public class SimpleResponse {
+public class SimpleResponse {//封装一下返回的值
 	
 	public SimpleResponse(Object content){
 		this.content = content;

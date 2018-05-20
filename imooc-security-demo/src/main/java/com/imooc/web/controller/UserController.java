@@ -14,6 +14,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.social.connect.web.ProviderSignInUtils;
@@ -55,9 +56,14 @@ public class UserController {
 	}
 	
 	@GetMapping("/me")
-	public Object getCurrentUser(@AuthenticationPrincipal UserDetails user) {
-		return user;
+	public Object getCurrentUser(Authentication authentication) {
+		return authentication;//登录之后获取用户所有的信息
 	}
+
+//	@GetMapping("/me")
+//	public Object getCurrentUser(@AuthenticationPrincipal UserDetails user) {
+//		return user;//登录之后获取用户部分的信息
+//	}
 
 	@PostMapping
 	@ApiOperation(value = "创建用户")
@@ -90,7 +96,7 @@ public class UserController {
 	}
 
 	@GetMapping
-	@JsonView(User.UserSimpleView.class)
+	@JsonView(User.UserSimpleView.class)//这个注解配套User，User的getter上有表明UserSimpleView.class的字段就可以在前端显示
 	@ApiOperation(value = "用户查询服务")
 	public List<User> query(UserQueryCondition condition,
 			@PageableDefault(page = 2, size = 17, sort = "username,asc") Pageable pageable) {
@@ -112,6 +118,7 @@ public class UserController {
 	@JsonView(User.UserDetailView.class)
 	public User getInfo(@ApiParam("用户id") @PathVariable String id) {
 //		throw new RuntimeException("user not exist");
+//		throw new UserNotExistException(id);
 		System.out.println("进入getInfo服务");
 		User user = new User();
 		user.setUsername("tom");

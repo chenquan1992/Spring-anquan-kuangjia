@@ -22,9 +22,11 @@ import com.imooc.security.core.properties.SecurityProperties;
 
 /**
  * @author zhailiang
- *
+ * 继承SimpleUrlAuthenticationFailureHandler这个，当登录失败的时候就会运行他实现的方法，然后我们改写方法，当登录失败就可以按照自己的要求实现
+ * 还有一个使成功的SavedRequestAwareAuthenticationSuccessHandler
+ * 这些写了之后还需要去BrowserSecurityConfig中配置一下，具体百度
  */
-@Component("imoocAuthenticationSuccessHandler")
+@Component("imoocAuthenticationSuccessHandler")//这个自定义个名字，当使用@Autowired的时候时候就不用写小写的了，可以直接使用这个名字
 public class ImoocAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());

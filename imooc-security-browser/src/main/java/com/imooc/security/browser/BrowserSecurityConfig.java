@@ -98,7 +98,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder();//密码加密器，这个会将前台输入的密码进行加密，然后在去处理，具体百度去，没有这个前台输入的密码就不加密了
+		//在用户注册的时候需要用 new BCryptPasswordEncoder().encode()，把密码加密放进数据库中存储
+
 	}
 	
 	@Bean

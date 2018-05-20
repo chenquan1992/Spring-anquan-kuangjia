@@ -27,7 +27,7 @@ import com.imooc.security.core.properties.SecurityProperties;
 
 /**
  * @author zhailiang
- *
+ * OncePerRequestFilter这是Spring提供的工具类，这个保证我们的过滤器每次只会被调用一次
  */
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
@@ -92,6 +92,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	 * org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(
 	 * javax.servlet.http.HttpServletRequest,
 	 * javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)
+	 *
+	 * extends OncePerRequestFilter这个类需要实现下面的方法
 	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -105,12 +107,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 						.validate(new ServletWebRequest(request, response));
 				logger.info("验证码校验通过");
 			} catch (ValidateCodeException exception) {
-				authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
+				authenticationFailureHandler.onAuthenticationFailure(request, response, exception);//这个是登录失败返回的错误信息
 				return;
 			}
 		}
 
-		chain.doFilter(request, response);
+		chain.doFilter(request, response);//这个是让程序运行其他的过滤器，上面的方法是判断在其他地方使用过滤一下
 
 	}
 

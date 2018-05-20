@@ -11,7 +11,7 @@ public class BrowserProperties {
 	
 	private SessionProperties session = new SessionProperties();
 	
-	private String signUpUrl = "/imooc-signUp.html";
+	private String signUpUrl = "/imooc-signUp.html";//如果配置文件没有配置，那么这样写就是默认的了
 	
 	private String loginPage = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
 	
